@@ -7,11 +7,14 @@ export default class TodoItem extends Component {
     todo: PropTypes.object.isRequired,
     editTodo: PropTypes.func.isRequired,
     deleteTodo: PropTypes.func.isRequired,
-    completeTodo: PropTypes.func.isRequired
+    completeTodo: PropTypes.func.isRequired,
+    tagTodo: PropTypes.func.isRequired,
+    removeTag: PropTypes.func.isRequired,
   }
 
   state = {
-    editing: false
+    editing: false,
+    tagging: false,
   }
 
   handleDoubleClick = () => {
@@ -22,33 +25,56 @@ export default class TodoItem extends Component {
     if (text.length === 0) {
       this.props.deleteTodo(id)
     } else {
-      this.props.editTodo(id, text)
+      this.props.addTodo(id, text)
     }
     this.setState({ editing: false })
   }
 
+  handleTag = (id, text) => {
+    if (text.length > 0) {
+      this.props.tagTodo(id, text)
+      this.setState({ tagging: false })
+    }
+  }
+
   render() {
     const {todo, completeTodo, deleteTodo} = this.props
-
     let element
     if (this.state.editing) {
       element = (
         <TodoTextInput
-          text={todo.text}
+          text={todo.title}
           editing={this.state.editing}
           onSave={(text) => this.handleSave(todo.id, text)}
         />
       )
-    } else {
+    } 
+    else {
       element = (
         <div className="view">
           <input
             className="toggle"
             type="checkbox"
             checked={todo.completed}
-            onChange={() => completeTodo(todo.id)}
+            onChange={() => completeTodo(todo.id, !todo.completed)}
           />
-          <label onDoubleClick={this.handleDoubleClick}>{todo.text}</label>
+          <label onDoubleClick={this.handleDoubleClick}>{todo.title}</label>
+          {
+            todo.tags.map((tag) => {
+              return <p key={tag.id} className='tag'>
+                {tag.name}
+                <button className="delete-tag" onClick={() => this.props.removeTag(tag.id, todo.id)}/>
+              </p>
+            })
+          }
+          {
+            this.state.tagging
+              ? <TodoTextInput
+                placeholder="tag here"
+                onSave={(text) => this.handleTag(todo.id, text)}
+              />
+              : <button className="add-tag" onClick={() => this.setState({ tagging: true })} />
+          }
           <button className="destroy" onClick={() => deleteTodo(todo.id)} />
         </div>
       )

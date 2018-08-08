@@ -1,0 +1,59 @@
+.todo-list li .add-tag {
+	display: none;
+	position: absolute;
+	top: 0;
+	right: 50px;
+	bottom: 0;
+	width: 40px;
+	height: 40px;
+	margin: auto 0;
+	font-size: 30px;
+	color: #cc9a9a;
+	margin-bottom: 11px;
+	transition: color 0.2s ease-out;
+}
+
+.todo-list li .add-tag:hover {
+	color: #af5b5e;
+}
+
+.todo-list li .add-tag:after {
+	content: "\002b";
+}
+
+.todo-list li:hover .add-tag {
+	display: block;
+}
+
+.todo-list .tag .delete-tag {
+	display: none;
+    position: relative;
+    height: 5px;
+    width: 5px;
+	font-size: 20px;
+	color: #cc9a9a;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    margin-left: 2px;
+	transition: color 0.2s ease-out;
+}
+
+.todo-list .tag .delete-tag:hover {
+	color: #af5b5e;
+}
+
+.todo-list .tag .delete-tag:after {
+	content: "\00d7";
+}
+
+.todo-list .tag:hover .delete-tag {
+	display: inline-block;
+}
+
+.todo-list li .tag {
+    display: inline-block;
+    background-color: bisque;
+    padding: 5px 20px 5px 5px;
+    margin: 5px;
+    border: 1px solid gray;
+}
